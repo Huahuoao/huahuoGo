@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
 	"gorm.io/gorm"
@@ -9,11 +8,7 @@ import (
 )
 
 func main() {
-	user := "root"
-	password := "20030416cjh"
-	hostAndPort := "tycloud.fzuhuahuo.cn:3308"
-	database := "gotest"
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", user, password, hostAndPort, database)
+	dsn := "root:123456@tcp(43.136.99.219:3309)/calculator?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn))
 	if err != nil {
 		log.Fatalln(err)

@@ -16,34 +16,39 @@ import (
 )
 
 var (
-	Q    = new(Query)
-	User *user
+	Q          = new(Query)
+	CalHistory *calHistory
+	CalRate    *calRate
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
-	User = &Q.User
+	CalHistory = &Q.CalHistory
+	CalRate = &Q.CalRate
 }
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:   db,
-		User: newUser(db, opts...),
+		db:         db,
+		CalHistory: newCalHistory(db, opts...),
+		CalRate:    newCalRate(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	User user
+	CalHistory calHistory
+	CalRate    calRate
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:   db,
-		User: q.User.clone(db),
+		db:         db,
+		CalHistory: q.CalHistory.clone(db),
+		CalRate:    q.CalRate.clone(db),
 	}
 }
 
@@ -57,18 +62,21 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:   db,
-		User: q.User.replaceDB(db),
+		db:         db,
+		CalHistory: q.CalHistory.replaceDB(db),
+		CalRate:    q.CalRate.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	User IUserDo
+	CalHistory ICalHistoryDo
+	CalRate    ICalRateDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		User: q.User.WithContext(ctx),
+		CalHistory: q.CalHistory.WithContext(ctx),
+		CalRate:    q.CalRate.WithContext(ctx),
 	}
 }
 

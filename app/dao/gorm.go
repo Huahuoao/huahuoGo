@@ -9,7 +9,7 @@ import (
 var DB *gorm.DB
 
 func init() {
-	dsn := "root:20030416cjh@tcp(tycloud.fzuhuahuo.cn:3308)/gotest?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:123456@tcp(43.136.99.219:3309)/calculator?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	DB = db
 	if err != nil {
